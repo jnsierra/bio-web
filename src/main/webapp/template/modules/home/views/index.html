@@ -1,0 +1,37 @@
+<div ng-controller="homeController">
+	<br />
+	<div class="container">
+		<div class="row">
+			<div class="col-12 col-md-8 alert alert-danger">No existen secuencias en la base de datos</div>
+			<div class="col-12 col-md-4">
+				<a href="#" class="btn btn-primary" ng-click="cargarArchivo()">Cargar Archivo</a>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-12 col-md-4">
+				<table class="table">
+					<thead class="thead-dark">
+						<tr>
+							<th scope="col">#</th>
+							<th scope="col">Nombre</th>
+							<th scope="col">Prin.</th>
+							<th scope="col">Secu.</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="item in listFiles">
+							<td>{{item.id}}</td>
+							<td>{{item.nombre}}</td>
+							<td><a href="#" ng-click="seleccionarPrincipal(item.id)">Pincipal</a></td>
+							<td><a href="#" ng-click="seleccionarSecundario(item.id)">Secundaria</a></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="col-12 col-md-8">
+				Nombre: <div class="" id="nombrePrimaria"></div>
+				Secundaria: <div class="" id="nombreSecundaria"></div>
+			</div>
+		</div>
+	</div>
+</div>
