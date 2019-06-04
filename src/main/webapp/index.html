@@ -1,28 +1,101 @@
 <!DOCTYPE html>
 <html ng-app="binformaticaApp">
 <head>
-	<script src="recursos/js/jquery-2.0.3.min.js" type="text/javascript"></script>
-	<script src="recursos/js/angular.js"></script>
-	<script src="recursos/js/angular-route.js"></script>
-	<script src="recursos/js/angular-cookies.js"></script>
-	<script src="recursos/js/ngDialog.min.js"></script>
-	<script src="recursos/js/moment.min.js"></script>
-	
-	<script src="bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
-	
-	<script src="scripts/app.js" type="text/javascript"></script>
-	<script src="recursos/js/controllers/controllersView.js" type="text/javascript"></script>
-	<script src="scripts/bussinesFactory.js" type="text/javascript"></script>
-	
-	
-	
-	
-	<link rel="stylesheet" href="recursos/Css/ngDialog/ngDialog.min.css">
-	<link rel="stylesheet" href="recursos/Css/ngDialog/ngDialog-theme-default.min.css">
-	
-	<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+<script src="recursos/js/jquery-2.0.3.min.js" type="text/javascript"></script>
+<script src="recursos/js/angular.js"></script>
+<script src="recursos/js/angular-route.js"></script>
+<script src="recursos/js/angular-cookies.js"></script>
+<script src="recursos/js/ngDialog.min.js"></script>
+<script src="recursos/js/moment.min.js"></script>
+
+<script src="bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+
+<script src="scripts/app.js" type="text/javascript"></script>
+<script src="recursos/js/controllers/controllersView.js"
+	type="text/javascript"></script>
+<script src="scripts/bussinesFactory.js" type="text/javascript"></script>
+
+
+
+
+<link rel="stylesheet" href="recursos/Css/ngDialog/ngDialog.min.css">
+<link rel="stylesheet"
+	href="recursos/Css/ngDialog/ngDialog-theme-default.min.css">
+
+<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
 </head>
 <body>
-	<div ng-view=""></div>
+	<div ng-controller="homeController">
+		<br />
+		<div class="container">
+			<div class="row">
+				<div class="col-12 col-md-8 alert alert-danger" ng-if="checked">
+				No existen secuencias en la base de datos</div>
+				<div class="col-12 col-md-4">
+					<a href="#" class="btn btn-primary" ng-click="cargarArchivo()">Cargar
+						Archivo</a><br/>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-12 col-md-4">
+					<table class="table">
+						<thead class="thead-dark">
+							<tr>
+								<th scope="col">#</th>
+								<th scope="col">Nombre</th>
+								<th scope="col">Prin.</th>
+								<th scope="col">Secu.</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="item in listFiles">
+								<td>{{item.id}}</td>
+								<td>{{item.nombre}}</td>
+								<td><a href="#" ng-click="seleccionarPrincipal(item.id)">Pincipal</a></td>
+								<td><a href="#" ng-click="seleccionarSecundario(item.id)">Secundaria</a></td>
+							</tr>
+						</tbody>
+						<tfoot>
+							<tr>
+								<td colspan="3"><a href="#" class="btn btn-primary" ng-click="generarSecuencia()">Generar Secuencia</a></td>
+							</tr>
+						</tfoot>
+					</table>					
+				</div>
+				<div class="col-12 col-md-8">
+					<div class="card">
+						<div class="card-body">
+							Primaria: {{princ.nombre}} <br /> Id: {{princ.id}} <br />
+							<ul class="list-group">
+								<li ng-repeat="item in princ.lineas" class="list-group-item">
+									{{ 'Id: ' + item.id + ', Secuencia: ' + item.lineaCaract }}
+								</li>
+							</ul>
+						</div>
+					</div>
+					<div class="card">
+						<div class="card-body">
+							Secundaria: {{secun.nombre}} <br /> Id: {{secun.id}} <br />
+							<ul class="list-group">
+								<li ng-repeat="item in secun.lineas" class="list-group-item">
+									{{ 'Id: ' + item.id + ', Secuencia: ' + item.lineaCaract }}
+								</li>
+							</ul>
+						</div>
+
+					</div>
+				</div>
+			</div><br/><br/>
+			<div class="row">
+				<table class="table table-bordered">
+					<tr ng-repeat="item in matriz">
+						<td ng-repeat="columnas in item">
+							{{columnas.valor}}
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
 </body>
 </html>

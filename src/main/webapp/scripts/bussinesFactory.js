@@ -15,6 +15,7 @@ app.factory("getFilesFasta", ['$cookies', '$location',
                     success: function (result, textStatus, jqXHR) {
                     	if(jqXHR.status == "204"){
                     		alert('No hay resultados');
+                    		objeto = [];
                     	}else{
                     		objeto = result;
                     	}
@@ -42,6 +43,38 @@ app.factory("getFilesFasta", ['$cookies', '$location',
             	var objeto = null;
             	$.ajax({
                     url: "http://localhost:8080/bioinformatica/v.1/archivo/"+id+"/",
+                    method: 'get',
+                    dataType: 'json',
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    async: false,
+                    success: function (result, textStatus, jqXHR) {
+                    	objeto = result;
+                    }
+                });
+            	return objeto;
+            },
+            getSecuencia : function (idPrin, idSec){
+            	var objeto = null;
+            	$.ajax({
+                    url: "http://localhost:8080/bioinformatica/v.1/file/algorithm/"+idPrin+"/" + idSec + "/",
+                    method: 'get',
+                    dataType: 'json',
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    async: false,
+                    success: function (result, textStatus, jqXHR) {
+                    	objeto = result;
+                    }
+                });
+            	return objeto;
+            },
+            getSecuenciaById : function (id){
+            	var objeto = null;
+            	$.ajax({
+                    url: "http://localhost:8080/bioinformatica/v.1/secuenciacion/"+id+"/" ,
                     method: 'get',
                     dataType: 'json',
                     cache: false,
