@@ -2,10 +2,18 @@ app.controller('homeController', ['$scope', 'getFilesFasta',function ($scope, ge
 		$scope.listFiles = getFilesFasta.getAllData();
 		$scope.matrizBase = null;
 		
+		//Variables para la insercion
+		$scope.nomInsert = '';
+		$scope.secInsert = '';
+		
 		$scope.secUnoAlin = [];
 		$scope.secDosAlin = [];
+		$scope.sumas = [];
+		$scope.matrizEquivalencias = getFilesFasta.getMatrizEquivalencias();
 		
 		$scope.puntaje = '';
+		
+		$scope.formIngreso = true;
 		
 		if($scope.listFiles.length > 0){
 			$scope.checked = false; 
@@ -15,9 +23,47 @@ app.controller('homeController', ['$scope', 'getFilesFasta',function ($scope, ge
 		$scope.princ = new Object();
 		$scope.secun = new Object();
 		$scope.matriz = [];
+		
+		$scope.mostrarFom = function(){
+			if($scope.formIngreso){
+				$scope.formIngreso = false;
+			}else{
+				$scope.formIngreso = true;
+			}
+		};
+		
+		$scope.insertarSecuencia = function(){
+			var archivo = new Object();
+			archivo.nombre = $('#nombreSec').val();
+			archivo.lineas = [];
+			var lineaUno = new Object();
+			lineaUno.linea = '1';
+			lineaUno.lineaCaract = $('#secuencia').val();
+			archivo.lineas.push(lineaUno);
+			var resultado = getFilesFasta.insertArchivo(archivo);
+			if(resultado){
+				alert('Secuencia insertada correctamente');
+				$scope.listFiles = getFilesFasta.getAllData();
+				$('#secuencia').val('');
+				$('#nombreSec').val('');
+				$scope.mostrarFom();
+			}else{
+				alert('Error al insertar la secuencia');
+			}
+			console.log(archivo);
+		}
+		
+		$scope.deleteItem = function(id){
+			var resultado = getFilesFasta.deleteById(id);
+			if(resultado){
+				alert('Registro eliminado correctamente');
+			}
+			$scope.listFiles = getFilesFasta.getAllData();
+		};
 		$scope.cargarArchivo = function(){
 			var uploadFile = getFilesFasta.uploadFile();
 			alert('Archivo subido correctamente');
+			$scope.listFiles = getFilesFasta.getAllData();
 		};
 		$scope.seleccionarPrincipal = function(id){
 			$scope.princ  =  getFilesFasta.byId(id);
@@ -88,7 +134,21 @@ app.controller('homeController', ['$scope', 'getFilesFasta',function ($scope, ge
 			console.log('maxX: ' + maxX + ' maxY: ' + maxY);
 			console.log('.:: ' + secuenciaUno + ' ::.' );
 			console.log('.:: ' + secuenciaDos + ' ::.' );
+			$scope.generaCalculo();
 		};
+		
+		$scope.generaCalculo = function(){
+			$scope.sumas = [];
+			for(var i= 0; i < $scope.secUnoAlin.length ; i++ ){
+				var uno = $scope.secUnoAlin[i];
+				var dos = $scope.secDosAlin[i];
+				if(uno == '*' || dos == '*'){
+					$scope.sumas.push("-5");
+				}else{
+					$scope.sumas.push($scope.matrizEquivalencias[getFilesFasta.getValorLetras(uno)][getFilesFasta.getValorLetras(dos)]);
+				}
+			}
+		}
 		
 }]);
 
