@@ -99,7 +99,7 @@ function multiplosCinco(matriz){
 	for(var i = 0; i <= matriz[0].length ; i++){
 		var aux = new Object();
 		aux.movimiento = '-1';
-		aux.valor = i*5;
+		aux.valor = -i*5;
 		aux.color = 'yellow-class';
 		vector.push(aux);
 	}
@@ -108,7 +108,7 @@ function multiplosCinco(matriz){
 	for(var i = 1 ; i < matriz.length ; i++){
 		var aux = new Object();
 		aux.movimiento = '-1';
-		aux.valor = i*5;
+		aux.valor = -i*5;
 		aux.color = 'yellow-class';
 		matriz[i].unshift(aux);
 	}
@@ -122,7 +122,7 @@ function adicionoClasesMatriz(matriz){
 			if(matriz[i][j].movimiento == '1'){
 				matriz[i][j].movimiento = 'Diagonal';
 			}else if(matriz[i][j].movimiento == '2'){
-				matriz[i][j].movimiento = 'Derecha';
+				matriz[i][j].movimiento = 'Izquierda';
 			}else if(matriz[i][j].movimiento == '3'){
 				matriz[i][j].movimiento = 'Arriba';
 			}
