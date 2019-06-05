@@ -23,6 +23,7 @@
 	href="recursos/Css/ngDialog/ngDialog-theme-default.min.css">
 
 <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="recursos/Css/custom.css">
 </head>
 <body>
 	<div ng-controller="homeController">
@@ -33,9 +34,10 @@
 				No existen secuencias en la base de datos</div>
 				<div class="col-12 col-md-4">
 					<a href="#" class="btn btn-primary" ng-click="cargarArchivo()">Cargar
-						Archivo</a><br/>
+						Archivo</a>
 				</div>
 			</div>
+			<br/>
 			<div class="row">
 				<div class="col-12 col-md-4">
 					<table class="table">
@@ -86,11 +88,12 @@
 					</div>
 				</div>
 			</div><br/><br/>
+			
 			<div class="row">
 				<table class="table table-bordered">
 					<tr ng-repeat="item in matriz">
-						<td ng-repeat="columnas in item">
-							{{columnas.valor}}
+						<td ng-repeat="columnas in item" class="{{columnas.color}}" title="{{columnas.movimiento + '; Diagonal 1: ' + columnas.valorUno + ', Izquierda 2: ' + columnas.valorDos + ', Arriba 3: ' + columnas.valorTres }}">
+							{{columnas.valor}} 
 						</td>
 					</tr>
 				</table>

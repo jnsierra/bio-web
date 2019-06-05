@@ -1,0 +1,13 @@
+@charset "ISO-8859-1";
+.azul-class{
+	background-color: #80d4ff;
+	color: white;
+}
+
+.yellow-class{
+	background-color: yellow;
+}
+
+.red-class{
+	background-color: red;
+}
