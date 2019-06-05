@@ -1,12 +1,11 @@
-var secuenciaUno = '';
-var secuenciaDos = '';
-
 app.controller('homeController', ['$scope', 'getFilesFasta',function ($scope, getFilesFasta) {
 		$scope.listFiles = getFilesFasta.getAllData();
 		$scope.matrizBase = null;
 		
-		$scope.secUnoAlin = '';
-		$scope.secDosAlin = '';
+		$scope.secUnoAlin = [];
+		$scope.secDosAlin = [];
+		
+		$scope.puntaje = '';
 		
 		if($scope.listFiles.length > 0){
 			$scope.checked = false; 
@@ -38,9 +37,9 @@ app.controller('homeController', ['$scope', 'getFilesFasta',function ($scope, ge
 				var matrizDosAux = JSON.parse(matrizAux.jsonMatriz);
 				matrizDosAux = adicionoClasesMatriz(matrizDosAux);
 				
-				matrizDosAux = creaRuta(matrizDosAux);
-				
 				matrizDosAux = multiplosCinco(matrizDosAux);
+				
+				matrizDosAux = creaRuta(matrizDosAux);
 				
 				matrizDosAux = modificarMatrizSecPrinc(matrizAux.secuenciaPrinc,matrizDosAux);
 				matrizDosAux = modificarMatrizSecSecundaria(matrizAux.secuenciaSec,matrizDosAux);
@@ -49,7 +48,46 @@ app.controller('homeController', ['$scope', 'getFilesFasta',function ($scope, ge
 				$scope.matriz = matrizDosAux;
 				
 				console.log($scope.matriz);
+				$scope.generaSecuenciacion();
 			}
+		};
+		
+		$scope.generaSecuenciacion = function(){
+			//Iteramos la matriz desde la posicion mas abajo y a la derecha
+			var maxY = $scope.matriz.length - 1;
+			var maxX = $scope.matriz[0].length - 1;
+			$scope.puntaje = $scope.matriz[maxY][maxX].valor;
+			var secuenciaUno = [];
+			var secuenciaDos = [];
+			while(maxX >= 1 && maxY >= 1 ){
+				console.log('Secuencia Uno:' + $scope.matriz[0][maxX] );
+				console.log('Secuencia Dos:' + $scope.matriz[maxY][0] );
+				console.log('Valor de la coordenada X: '+ maxX + '  Y: '+maxY +' '+  $scope.matriz[maxY][maxX].valor );
+				if($scope.matriz[maxY][maxX].movimiento == 'Diagonal'){
+					//Tomo uno de arriba y uno de abajo
+					secuenciaUno.unshift( $scope.matriz[0][maxX].valor );
+					secuenciaDos.unshift( $scope.matriz[maxY][0].valor );
+					maxX--;
+					maxY--;
+				}else if($scope.matriz[maxY][maxX].movimiento == 'Izquierda' && !(maxY == 1 && maxX == 1)  ){
+					//Tomo uno de arriba y uno de abajo
+					secuenciaUno.unshift( $scope.matriz[0][maxX].valor );
+					secuenciaDos.unshift( '*' );
+					maxX--;
+				}else if($scope.matriz[maxY][maxX].movimiento == 'Arriba' && !(maxY == 1 && maxX == 1)  ) {
+					secuenciaUno.unshift( '*' );
+					secuenciaDos.unshift( $scope.matriz[maxY][0].valor );
+					maxY--;
+				}else{
+					break;
+				}
+			}
+			
+			$scope.secUnoAlin = secuenciaUno;
+			$scope.secDosAlin = secuenciaDos;
+			console.log('maxX: ' + maxX + ' maxY: ' + maxY);
+			console.log('.:: ' + secuenciaUno + ' ::.' );
+			console.log('.:: ' + secuenciaDos + ' ::.' );
 		};
 		
 }]);
@@ -101,6 +139,7 @@ function multiplosCinco(matriz){
 		aux.movimiento = '-1';
 		aux.valor = -i*5;
 		aux.color = 'yellow-class';
+		aux.movimiento = 'Izquierda';
 		vector.push(aux);
 	}
 	matriz.unshift(vector);
@@ -110,6 +149,7 @@ function multiplosCinco(matriz){
 		aux.movimiento = '-1';
 		aux.valor = -i*5;
 		aux.color = 'yellow-class';
+		aux.movimiento = 'Arriba';
 		matriz[i].unshift(aux);
 	}
 	return matriz;
@@ -143,9 +183,9 @@ function creaRuta(matriz){
 			maxX--;
 			maxY--;
 		}else if(matriz[maxX][maxY].movimiento == 'Izquierda'){
-			maxX--;
-		}else{
 			maxY--;
+		}else{
+			maxX--;
 		} 
 		
 	}

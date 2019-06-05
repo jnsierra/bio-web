@@ -29,15 +29,7 @@
 	<div ng-controller="homeController">
 		<br />
 		<div class="container">
-			<div class="row">
-				<div class="col-12 col-md-8 alert alert-danger" ng-if="checked">
-				No existen secuencias en la base de datos</div>
-				<div class="col-12 col-md-4">
-					<a href="#" class="btn btn-primary" ng-click="cargarArchivo()">Cargar
-						Archivo</a>
-				</div>
-			</div>
-			<br/>
+			<br />
 			<div class="row">
 				<div class="col-12 col-md-4">
 					<table class="table">
@@ -59,10 +51,19 @@
 						</tbody>
 						<tfoot>
 							<tr>
-								<td colspan="3"><a href="#" class="btn btn-primary" ng-click="generarSecuencia()">Generar Secuencia</a></td>
+								<td colspan="2"><a href="#" class="btn btn-primary"
+									ng-click="generarSecuencia()">Generar Secuencia</a></td>
+								<td colspan="2">
+									<div class="col-12 col-md-8 alert alert-danger" ng-if="checked">No
+										existen secuencias en la base de datos</div>
+									<div class="col-12 col-md-4">
+										<a href="#" class="btn btn-primary" ng-click="cargarArchivo()">Cargar
+											Archivo</a>
+									</div>
+								</td>
 							</tr>
 						</tfoot>
-					</table>					
+					</table>
 				</div>
 				<div class="col-12 col-md-8">
 					<div class="card">
@@ -70,8 +71,7 @@
 							Primaria: {{princ.nombre}} <br /> Id: {{princ.id}} <br />
 							<ul class="list-group">
 								<li ng-repeat="item in princ.lineas" class="list-group-item">
-									{{ 'Id: ' + item.id + ', Secuencia: ' + item.lineaCaract }}
-								</li>
+									{{ 'Id: ' + item.id + ', Secuencia: ' + item.lineaCaract }}</li>
 							</ul>
 						</div>
 					</div>
@@ -80,23 +80,39 @@
 							Secundaria: {{secun.nombre}} <br /> Id: {{secun.id}} <br />
 							<ul class="list-group">
 								<li ng-repeat="item in secun.lineas" class="list-group-item">
-									{{ 'Id: ' + item.id + ', Secuencia: ' + item.lineaCaract }}
-								</li>
+									{{ 'Id: ' + item.id + ', Secuencia: ' + item.lineaCaract }}</li>
 							</ul>
 						</div>
 
 					</div>
 				</div>
-			</div><br/><br/>
-			
+			</div>
+			<br />
 			<div class="row">
-				<table class="table table-bordered">
-					<tr ng-repeat="item in matriz">
-						<td ng-repeat="columnas in item" class="{{columnas.color}}" title="{{columnas.movimiento + '; Diagonal 1: ' + columnas.valorUno + ', Izquierda 2: ' + columnas.valorDos + ', Arriba 3: ' + columnas.valorTres }}">
-							{{columnas.valor}} 
-						</td>
-					</tr>
-				</table>
+				<h2>Alineación de las secuencias: {{puntaje}}</h2>
+				<br />
+				<div class="table-responsive">
+					<table class="table table-dark">
+						<tr>
+							<td ng-repeat="itemUno in secUnoAlin track by $index">{{itemUno}}</td>
+						</tr>
+						<tr>
+							<td ng-repeat="itemDos in secDosAlin track by $index">{{itemDos}}</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			<br />
+			<div class="row">
+				<div class="table-responsive">
+					<table class="table table-bordered">
+						<tr ng-repeat="item in matriz">
+							<td ng-repeat="columnas in item" class="{{columnas.color}}"
+								title="{{columnas.movimiento + '; Diagonal 1: ' + columnas.valorUno + ', Izquierda 2: ' + columnas.valorDos + ', Arriba 3: ' + columnas.valorTres }}">
+								{{columnas.valor}}</td>
+						</tr>
+					</table>
+				</div>
 			</div>
 		</div>
 	</div>
